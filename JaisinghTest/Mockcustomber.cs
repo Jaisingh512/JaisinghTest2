@@ -21,8 +21,12 @@ namespace JaisinghTest
            
             conn.Open();
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "insert into Customerinfo values('" + obj.name.Trim() + "','"
-                + obj.phone + "','" + obj.email + "')";
+           
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandText = "spSaveCustomber";
+            cmd.Parameters.AddWithValue("@name", obj.name);
+            cmd.Parameters.AddWithValue("@email", obj.email);
+            cmd.Parameters.AddWithValue("@phone", obj.phone);
             cmd.Connection = conn;
           int intx=   cmd.ExecuteNonQuery();
 
@@ -51,10 +55,15 @@ namespace JaisinghTest
           
             conn.Open();
             SqlCommand cmd = new SqlCommand();
-    
-            cmd.CommandText = "update Customerinfo set name='"+ obj.name.Trim() +"', phone ='"+ obj.phone.Trim()
-                +"', email='"+ obj.email.Trim() +"' where id='"+  obj.id.Trim() +"' ";
+
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandText = "speditCustomber";
+            cmd.Parameters.AddWithValue("@name", obj.name);
+            cmd.Parameters.AddWithValue("@email", obj.email);
+            cmd.Parameters.AddWithValue("@phone", obj.phone);
+            cmd.Parameters.AddWithValue("@id", obj.id.Trim());
             cmd.Connection = conn;
+
             int intx = cmd.ExecuteNonQuery();
 
             conn.Close();
@@ -83,8 +92,10 @@ namespace JaisinghTest
            
             conn.Open();
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "delete from Customerinfo where id='"+ id.Trim() +"'";
-         
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandText = "spdeleteCustomber";
+            cmd.Parameters.AddWithValue("@id", id.Trim());
+
             cmd.Connection = conn;
             int intx = cmd.ExecuteNonQuery();
 
@@ -117,7 +128,8 @@ namespace JaisinghTest
           
             conn.Open();
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "select * from Customerinfo";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandText = "spgetlistCustomber";
             cmd.Connection = conn;
             SqlDataAdapter das = new SqlDataAdapter(cmd);
             DataSet ds = new DataSet();
@@ -159,8 +171,11 @@ namespace JaisinghTest
           
             conn.Open();
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "select * from Customerinfo where id='"+ id.Trim() +"'";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandText = "spgeteditCustomber";
+            cmd.Parameters.AddWithValue("@id", id.Trim());
             cmd.Connection = conn;
+      
             SqlDataAdapter das = new SqlDataAdapter(cmd);
             DataSet ds = new DataSet();
             das.Fill(ds, "Customerinfo");
